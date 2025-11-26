@@ -2,41 +2,28 @@ pipeline {
     agent any
 
     tools {
-        maven "maven-3.9"
-        jdk "jdk-17"
+        maven 'Maven3'
+        jdk 'JDK17'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/Ashutosh6411/playwright-automation.git'
+                git branch: 'master',
+                    url: 'https://github.com/Ashutosh6411/playwright-automation.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build') {
             steps {
-                sh "mvn clean install -DskipTests"
+                sh 'mvn clean install -DskipTests'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh "mvn test"
+                sh 'mvn test'
             }
-        }
-
-        stage('Archive Reports') {
-            steps {
-                junit 'target/surefire-reports/*.xml'
-                archiveArtifacts artifacts: 'target/**/*', fingerprint: true
-            }
-        }
-    }
-
-    post {
-        always {
-            echo "Build finished!"
         }
     }
 }
