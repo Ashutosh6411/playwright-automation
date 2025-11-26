@@ -1,22 +1,16 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'
-        jdk 'JDK17'
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/Ashutosh6411/playwright-automation.git'
+                git 'https://github.com/Ashutosh6411/playwright-automation.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean install'
             }
         }
 
@@ -24,6 +18,12 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/target/*.xml', allowEmptyArchive: true
         }
     }
 }
