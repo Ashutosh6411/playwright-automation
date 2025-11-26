@@ -14,7 +14,7 @@ public class ExampleTest {
                 new BrowserType.LaunchOptions().setHeadless(false)
             );
 
-            // Create a new page
+            // Create a new page test
             BrowserContext context = browser.newContext();
             Page page = context.newPage();
 
